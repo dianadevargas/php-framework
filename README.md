@@ -6,9 +6,9 @@ This PHP framework is light weight (less than 700Kb), with Front Controller, MVC
 
 ##Directory Structure
 The directory structure has been organized as follow:
-* Application :  contains folders such as *config*, *views*, *commands*, and *models*. Most of your application's code will reside somewhere in this directory.
-* Cron : Contain examples of files to be call from cron jobs
-* Library : Contains the core classes for general use and third party classes. 
+* Application :  contains folders such as *config*, *views*, *commands*, and *models*. Most of your application's code will reside in this directory.
+* Cron : Contain examples of files to be call from command line or cron jobs
+* Library : Contains the core and third party classes. 
 * public_html: Contain the index.php file, images, js, and css files (this is the public directory)
 
 ##The framework has a few system requirements:
@@ -33,7 +33,7 @@ RewriteRule !\.(js|gif|png|jpg|css|swf|xml|pdf|exe|cab)$ index.php [L]
 ##Request Lifecycle
 
 ###Overview
-The framework request lifecycle is fairly simple. A request enters your application via the url (http://your.domain/) the file *public_html/index.php* is called. This files includes the bootstrap.php file which calls the front controller. The front controller calls the apropied command. The response from that command is then sent back to the browser and displayed on the screen. 
+The framework request lifecycle is fairly simple. A request enters your application via the url (http://your.domain/) the file *public_html/index.php* is called. This file includes the bootstrap.php file which calls the front controller. The front controller calls the appropriated  command. The response from that command is then sent back to the browser and displayed on the screen. 
 The selection of the command is based in the url eg. *http://your.domain/modulename/tools* calls a command in *application/modulename/commands/tools.php* if this does not exist try to call the method *"tools"* in *"application/modulename/commands/index.php"*
 
 All folders in the application folder require having a *commands/index.php* file. The basic structure of this file is:
@@ -53,7 +53,7 @@ class appname extends  library\Command
 /*
  *  Run if called with bootstrap
  */
-$app = example::getInstance();
+$cmd = appname::getInstance();
 ```
 
 ###Views & Responses
@@ -76,7 +76,7 @@ A simple view could look something like this:
 
 ####Passing Data To Views
 The view contains a reference to the singleton class *Registry* in the variable $vars, all the variables stored in the object can be seen on the view.
-In the example above the variable *$vars->name* would be accessible from the view and can be set up in the *$modulename* object via its reference to the *registry*.
+In the example above the variable *$vars->name* would be accessible from the view and can be set up in the *$modulename* object via its reference to the *registry* object.
 ####Special Responses
 
 #####Creating A JSON Response
@@ -104,11 +104,11 @@ class UserCommand extends Command{
 }
 ```
 
-All commands should extend the *Command* class. The *Command* is stored in the library directory, and may be used as a place to put shared command logic. The *Command* extends the framework's *Model* class. 
-You can use classes specifically for a module these classes should be stored in   *modulename/models*
+All commands should extend the *Command* class. This class is stored in the library directory, and may be used as a place to put shared command logic.
+You can use classes specifically for the module these classes should be stored in   *modulename/models* path.
 
 ###Handling Missing Methods
-An *index* method may be defined in all commands; this method is called when no other matching method is found on a given controller.
+An *index* method may be defined in all commands; this method is called when the received command does not match any public  method in the command object on a given application.
 
 ###Examples
 The framework includes one example method.
